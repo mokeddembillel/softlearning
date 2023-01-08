@@ -26,6 +26,7 @@ from ray.autoscaler._private.commands import exec_cluster
 
 from softlearning.utils.times import datetimestamp
 from softlearning.utils.misc import PROJECT_PATH
+from ray.util import inspect_serializability
 
 
 AUTOSCALER_DEFAULT_CONFIG_FILE_GCE = os.path.join(
@@ -227,6 +228,10 @@ def run_example_local(example_module_name, example_argv, local_mode=False):
 
     experiment_kwargs = generate_experiment_kwargs(variant_spec, example_args)
 
+    print(inspect_serializability(trainable_class, name="trainable_class"))
+    print(inspect_serializability(experiment_kwargs, name="experiment_kwargs"))
+    # import pdb; pdb.set_trace() #########################################
+    
     ray.init(
         num_cpus=example_args.cpus,
         num_gpus=example_args.gpus,

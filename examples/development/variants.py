@@ -95,24 +95,29 @@ TOTAL_STEPS_PER_UNIVERSE_DOMAIN_TASK = {
         'Hopper': {
             DEFAULT_KEY: int(1e6),
             'v3': int(1e6),
+            'v2': int(1e6), #######################################
         },
         'HalfCheetah': {
             DEFAULT_KEY: int(3e6),
             'v3': int(3e6),
+            'v2': int(3e6), #######################################
         },
         'Walker2d': {
             DEFAULT_KEY: int(3e6),
             'v3': int(3e6),
+            'v2': int(1e6), #######################################
         },
         'Ant': {
             DEFAULT_KEY: int(3e6),
             'v3': int(3e6),
+            'v2': int(3e6), #######################################
         },
         'Humanoid': {
             DEFAULT_KEY: int(1e7),
             'Stand-v3': int(1e7),
             'SimpleStand-v3': int(1e7),
             'v3': int(1e7),
+            'v2': int(1e7), #######################################
         },
         'Pendulum': {
             DEFAULT_KEY: int(1e4),
@@ -233,7 +238,8 @@ MAX_PATH_LENGTH_PER_UNIVERSE_DOMAIN_TASK = {
 EPOCH_LENGTH_PER_UNIVERSE_DOMAIN_TASK = {
     DEFAULT_KEY: 1000,
     'gym': {
-        DEFAULT_KEY: 25000,
+        # DEFAULT_KEY: 25000,
+        DEFAULT_KEY: 4000, #######################################
         'Pendulum': {
             DEFAULT_KEY: 1000,
             'v0': 1000,
@@ -403,6 +409,12 @@ def get_algorithm_params(universe, domain, task):
     total_timesteps = get_total_timesteps(universe, domain, task)
     epoch_length = get_epoch_length(universe, domain, task)
     n_epochs = total_timesteps / epoch_length
+    print('############################################## ', domain) ##################################
+    print('############################################## ', task) ##################################
+    print('############################################## ', n_epochs) ##################################
+    print('############################################## ', total_timesteps) ##################################
+    print('############################################## ', epoch_length) ##################################
+    # import pdb; pdb.set_trace() ##################################
     assert n_epochs == int(n_epochs), (n_epochs, total_timesteps, epoch_length)
     algorithm_params = {
         'config': {
@@ -452,7 +464,8 @@ def get_variant_spec_base(universe, domain, task, policy, algorithm):
             'config': {
                 'hidden_layer_sizes': (M, M),
                 'squash': True,
-                'observation_keys': None,
+                # 'observation_keys': None,
+                'observation_keys': ('observations',), ###############################################
                 'preprocessors': None,
             },
         },
@@ -471,7 +484,8 @@ def get_variant_spec_base(universe, domain, task, policy, algorithm):
             'class_name': 'double_feedforward_Q_function',
             'config': {
                 'hidden_layer_sizes': (M, M),
-                'observation_keys': None,
+                # 'observation_keys': None, ###############################################
+                'observation_keys': ('observations',), ###############################################
                 'preprocessors': None,
             },
         },
@@ -507,7 +521,7 @@ def get_variant_spec_base(universe, domain, task, policy, algorithm):
             'checkpoint_replay_pool': False,
         },
     }
-
+    # import pdb; pdb.set_trace() ##################################
     return variant_spec
 
 
@@ -566,7 +580,7 @@ def get_variant_spec_image(universe,
 
 def get_variant_spec(args):
     universe, domain, task = args.universe, args.domain, args.task
-
+    # import pdb; pdb.set_trace() #######################################
     variant_spec = get_variant_spec_image(
         universe, domain, task, args.policy, args.algorithm)
 

@@ -4,13 +4,13 @@ ALGORITHM_PARAMS_BASE = {
     'class_name': 'SAC',
 
     'config': {
-        'epoch_length': 100,
+        'epoch_length': 400,
         'n_epochs': 1000,
         'n_train_repeat': 1,
         'eval_render_kwargs': {
             'mode': 'human',
         },
-        'eval_n_episodes': 10,
+        'eval_n_episodes': 20,
 
         'discount': 0.99,
         'reward_scale': 1.0,
@@ -54,6 +54,7 @@ def get_variant_spec(args):
             'config': {
                 'hidden_layer_sizes': (layer_size, layer_size),
                 'squash': True,
+                'observation_keys': ('observations',), ###############################################
             },
         },
         'algorithm_params': deep_update(
@@ -64,11 +65,18 @@ def get_variant_spec(args):
             'class_name': 'double_feedforward_Q_function',
             'config': {
                 'hidden_layer_sizes': (layer_size, layer_size),
+                'observation_keys': ('observations',), ###############################################
             },
         },
         'run_params': {
             'seed': 1,
         },
+        'sampler_params':{
+            'class_name': 'SimpleSampler',
+            'config':{
+                'max_path_length': 30
+            }
+        }
     }
 
     return variant_spec

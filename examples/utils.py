@@ -225,6 +225,7 @@ def get_parser(allow_policy_list=False):
         help="Save frequency for videos.")
 
     parser = add_ray_init_args(parser)
+    
     parser = add_ray_tune_args(parser)
 
     return parser
